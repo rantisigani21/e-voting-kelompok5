@@ -91,7 +91,6 @@ function tampilData() {
   // Hitung jumlah partisipasi
   const { sudahVote, belumVote } = hitungPartisipasi();
 
-  // Tampilkan informasi partisipasi
   partisipasi.innerHTML = `
     <p 
       style="text-align:center;color:white"
