@@ -7,13 +7,11 @@
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
+  <body>  
     <div class="nuvbar">
       <div class="logo">Sistem Voting</div>
     </div>
-
     <div id="kandidats" class="content"></div>
-
     <div
       id="loginModal"
       style="
@@ -27,8 +25,7 @@
         height: 100%;
         overflow: auto;
         background-color: rgba(0, 0, 0, 0.4);
-      "
-    >
+      ">
       <div
         style="
           background-color: white;
@@ -51,6 +48,7 @@
             border-radius: 5px;
             border: 1px solid #ccc;
           "
+          value="hades"
         />
 
         <br /><br />
@@ -64,6 +62,7 @@
             border-radius: 5px;
             border: 1px solid #ccc;
           "
+          value="karama"
         />
 
         <br /><br />
@@ -81,94 +80,92 @@
         >
           Login
         </button>
-        
       </div>
     </div>
-
     <div id="partisipasi" style="width: 100%; margin-top: 20px"></div>
-
     <div id="kandidats"></div>
+
+    <div
+      id="buttonreset"
+      style="
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      "
+    ></div>
     <script src="script.js">
-        // Data pengguna
+      // Data pengguna
 
-        // Fungsi untuk menangani login
-        function login() {
-          const username = document.getElementById("usernameInput").value.trim();
-          const password = document.getElementById("passwordInput").value.trim();
+      // Fungsi untuk menangani login
+      function login() {
+        const username = document.getElementById("usernameInput").value.trim();
+        const password = document.getElementById("passwordInput").value.trim();
 
-          // Cek apakah username dan password cocok
-          const user = pemilih.find(
-            (p) => p.username === username && p.password === password
-          );
+        // Cek apakah username dan password cocok
+        const user = pemilih.find(
+          (p) => p.username === username && p.password === password
+        );
 
+      // Fungsi untuk membuka modal login
+      function openLoginModal() {
+        document.getElementById("loginModal").style.display = "block";
+      }
 
-        // Fungsi untuk membuka modal login
-        function openLoginModal() {
-          document.getElementById("loginModal").style.display = "block";
+        // Periksa apakah pengguna sudah login
+        if (!loggedInUser) {
+          alert("Silakan login terlebih dahulu untuk memberikan suara!");
+          openLoginModal(); // Buka modal login
+          return;
         }
 
+        // Tambahkan suara untuk kandidat
+        kandidat.find((k) => k.id === id).hasil += 1;
 
-          // Periksa apakah pengguna sudah login
-          if (!loggedInUser) {
-            alert("Silakan login terlebih dahulu untuk memberikan suara!");
-            openLoginModal(); // Buka modal login
-            return;
+        // Perbarui tampilan
+        tampilData();
+
+        alert("Terima kasih telah memberikan suara!");
+      }
+
+      // Fungsi untuk menampilkan data kandidat
+      function tampilData() {
+        const kandidats = document.getElementById("kandidats");
+        kandidats.innerHTML = ""; // Hapus konten sebelumnya
+
+        kandidat.forEach((k) => {
+          const div = document.createElement("div");
+          div.className = "calon1";
+
+          const img = document.createElement("img");
+          img.src = k.foto;
+          img.style = "height: 150px; width: 150px; object-fit: cover";
+
+          const name = document.createElement("h3");
+          name.textContent = k.nama;
+
+          const voteButton = document.createElement("button");
+          voteButton.textContent = "Vote";
+          voteButton.onclick = () => submitVote(k.id);
+
+          // Jika sudah voting, disable tombol
+          if (localStorage.getItem("voted") === "true") {
+            voteButton.disabled = true;
+            voteButton.textContent = "Sudah Vote";
           }
 
-          // Tambahkan suara untuk kandidat
-          kandidat.find((k) => k.id === id).hasil += 1;
 
-          // Perbarui tampilan
-          tampilData();
-
-          alert("Terima kasih telah memberikan suara!");
-        }
-
-        // Fungsi untuk menampilkan data kandidat
-        function tampilData() {
-          const kandidats = document.getElementById("kandidats");
-          kandidats.innerHTML = ""; // Hapus konten sebelumnya
-
-          kandidat.forEach((k) => {
-            const div = document.createElement("div");
-            div.className = "calon1";
-
-            const img = document.createElement("img");
-            img.src = k.foto;
-            img.style = "height: 150px; width: 150px; object-fit: cover";
-
-            const name = document.createElement("h3");
-            name.textContent = k.nama;
-
-            const voteButton = document.createElement("button");
-            voteButton.textContent = "Vote";
-            voteButton.onclick = () => submitVote(k.id);
-
-            // Jika sudah voting, disable tombol
-            if (localStorage.getItem("voted") === "true") {
-              voteButton.disabled = true;
-              voteButton.textContent = "Sudah Vote";
-            }
-            function reset(){
-              const kandidats = document.getElementById("kandidats");
-              kandidats.innerHTML = "";
-            }
-
-            const hasil = document.createElement("h1");
-            hasil.textContent = k.hasil;
-
-            div.appendChild(img);
-            div.appendChild(name);
-            div.appendChild(voteButton);
-            div.appendChild(hasil);
-            kandidats.appendChild(div);
-          });
-        }
-
-
-
-        // Load data awal
-        tampilData();
+          const hasil = document.createElement("h1");
+          hasil.textContent = k.hasil;
+          div.appendChild(img);
+          div.appendChild(name);
+          div.appendChild(voteButton);
+          div.appendChild(hasil);
+          kandidats.appendChild(div);
+        });
+      }
+      // Load data awal
+      tampilData();
     </script>
   </body>
 </html>

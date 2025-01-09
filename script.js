@@ -32,6 +32,13 @@ let pemilih = [
   { username: "tri", password: "mufep", voted: 0 },
   { username: "ico", password: "weqmyhmr", voted: 0 },
 ];
+
+let hasil = 
+  { partisipan: pemilih.length, 
+    sudahVote: 0, 
+    belumVote: pemilih.length 
+  };
+
 // Variabel untuk menyimpan pengguna yang sedang login
 let currentUser = null;
 
@@ -73,36 +80,24 @@ function openLoginModal() {
   document.getElementById("loginModal").style.display = "block";
 }
 
-// Fungsi untuk menghitung jumlah partisipasi
-function hitungPartisipasi() {
-  const sudahVote = pemilih.filter((p) => p.voted).length; // Jumlah yang sudah vote
-  const belumVote = pemilih.length - sudahVote; // Jumlah yang belum vote
-
-  return { sudahVote, belumVote };
-}
-
 // Fungsi untuk menampilkan data kandidat dan partisipasi
 function tampilData() {
   const kandidats = document.getElementById("kandidats");
   const partisipasi = document.getElementById("partisipasi"); // Elemen untuk partisipasi
 
-  kandidats.innerHTML = ""; // Bersihkan elemen sebelumnya
-
-  // Hitung jumlah partisipasi
-  const { sudahVote, belumVote } = hitungPartisipasi();
-
+  // Bersihkan elemen sebelumnya
+  kandidats.innerHTML = "";
   partisipasi.innerHTML = `
     <p 
       style="text-align:center;color:white"
     
-    >Total Partisipan: ${pemilih.length}</p>
+    >Total Partisipan: ${hasil.partisipan}</p>
     <p
       style="text-align:center;color:white"
-    >Sudah Vote: ${sudahVote}</p>
+    >Sudah Vote: ${hasil.sudahVote}</p>
     <p
       style="text-align:center;color:white"
-    >Belum Vote: ${belumVote}</p>
-   
+    >Belum Vote: ${hasil.belumVote}</p>
     `;
   //
 
@@ -152,6 +147,27 @@ function tampilData() {
   }
 }
 
+function reset() {
+  alert("RESET");
+  kandidat[0].hasil = 0;
+  kandidat[1].hasil = 0;
+  kandidat[2].hasil = 0;
+  kandidat[3].hasil = 0;
+  currentUser.voted = false;
+  hasil.sudahVote = 0;
+  hasil.belumVote = pemilih.length;
+  tampilData();
+}
+
+function showButton() {
+  const buttonreset = document.getElementById("buttonreset");
+  buttonreset.innerHTML = `
+    <button onclick="reset()">Reset</button>
+  `;
+}
+
+showButton();
+
 // Fungsi untuk menangani voting
 function submitVote(id) {
   if (!currentUser) {
@@ -174,9 +190,11 @@ function submitVote(id) {
       kandidat[a].hasil += 1;
     }
   }
-
   // Tandai bahwa pengguna sudah voting
   currentUser.voted = true;
+
+  hasil.sudahVote+=1;
+  hasil.belumVote-=pemilih.filter((p) => p.voted).length;
 
   // Perbarui tampilan data
   tampilData();
@@ -208,5 +226,4 @@ function enkripPassx(text) {
   return chars.join("");
 }
 
-// Muat data awal
 tampilData();
