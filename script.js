@@ -9,15 +9,15 @@ let kandidat = [
 // Data pengguna
 let pemilih = [
   { username: "pipi", password: "wemjyhhmr", voted: 0 },
-  { username: "diba", password: "qbifsbohj", voted: 0 },
-  { username: "zahra", password: "ibsvobstzbe", voted: 0 },
+  { username: "diba", password: "teliverkm", voted: 0 },
+  { username: "zahra", password: "levyr", voted: 0 },
   { username: "cai", password: "wyhmvqer", voted: 0 },
-  { username: "dayat", password: "bnjo", voted: 0 },
-  { username: "tantan", password: "tvebstpop", voted: 0 },
-  { username: "mul", password: "nvmzbej", voted: 0 },
-  { username: "asya", password: "sbnmj", voted: 0 },
+  { username: "dayat", password: "eqmr", voted: 0 },
+  { username: "tantan", password: "wyhevwsrs", voted: 0 },
+  { username: "mul", password: "qyp}ehm", voted: 0 },
+  { username: "asya", password: "veqpm", voted: 0 },
   { username: "alfi", password: "tzbsjg", voted: 0 },
-  { username: "fila", password: "tbgsjbeiz", voted: 0 },
+  { username: "fila", password: "wejvmehl}", voted: 0 },
   { username: "ranti", password: "leqvmhmr", voted: 0 },
   { username: "hades", password: "oeveqe", voted: 0 },
   { username: "rahma", password: "pyoqer", voted: 0 },
@@ -28,49 +28,45 @@ let pemilih = [
   { username: "anto", password: "veqerk", voted: 0 },
   { username: "fahmi", password: "qyre{mv", voted: 0 },
   { username: "mus", password: "ew+eh", voted: 0 },
-  { username: "sheva", password: "erxsr$lmhe}ex", voted: 0 },
+  { username: "sheva", password: "erxsr", voted: 0 },
   { username: "tri", password: "mufep", voted: 0 },
   { username: "ico", password: "weqmyhmr", voted: 0 },
+  { username: "tes", password: "e}el", voted: 0 },
 ];
 
-let hasil = 
-  { partisipan: pemilih.length, 
-    sudahVote: 0, 
-    belumVote: pemilih.length 
-  };
+let hasil = {
+  partisipan: pemilih.length,
+  sudahVote: 0,
+  belumVote: pemilih.length,
+};
 
 // Variabel untuk menyimpan pengguna yang sedang login
-let currentUser = null;
+let userSekarang = null;
 
 // Fungsi untuk login
 function login() {
   const username = document.getElementById("usernameInput").value.trim();
   const password = document.getElementById("passwordInput").value.trim();
   // const password = md5(document.getElementById("passwordInput").value.trim());
-  key = "rahasia";
+  // key = "rahasia";
   // const enk = enkripPass(password, key);
 
   // Validasi username dan password
   const user = pemilih.find(
-    (p) => p.username === username && p.password === enkripPassx(password)
+    (p) => p.username == username && p.password === enkripPassx(password)
   );
 
   if (user) {
     // Periksa apakah pengguna sudah login sebelumnya
-    if (currentUser && currentUser.username !== username) {
-      currentUser.voted = 0; // Reset status voting untuk pengguna baru
+    if (userSekarang && userSekarang.username !== username) {
+      userSekarang.voted = 0; // Reset status voting untuk pengguna baru
     }
 
-    currentUser = user; // Simpan pengguna yang sedang login
+    userSekarang = user; // Simpan pengguna yang sedang login
     alert(`Selamat datang, ${username}!`);
     document.getElementById("loginModal").style.display = "none"; // Tutup modal login
     tampilData(); // Perbarui tampilan
   } else {
-    teks = "karama";
-    // key = "rahasia";
-    enk = enkripPassx(teks);
-    console.log(enk);
-    // alert(enk);
     alert("Username atau password salah! Silakan coba lagi.");
   }
 }
@@ -93,7 +89,7 @@ function tampilData() {
     
     >Total Partisipan: ${hasil.partisipan}</p>
     <p
-      style="text-align:center;color:white"
+      style="text-align:center;color:white;"
     >Sudah Vote: ${hasil.sudahVote}</p>
     <p
       style="text-align:center;color:white"
@@ -102,7 +98,7 @@ function tampilData() {
   //
 
   // Jika pengguna belum login, tampilkan modal login
-  if (!currentUser) {
+  if (!userSekarang) {
     openLoginModal();
     return;
   }
@@ -132,7 +128,7 @@ function tampilData() {
     );
 
     // Ubah teks tombol jika pengguna sudah voting
-    buttonVoting.textContent = currentUser.voted ? "Sudah Vote" : "Vote";
+    buttonVoting.textContent = userSekarang.voted ? "Sudah Vote" : "Vote";
 
     let hasil = document.createElement("h1");
     hasil.textContent = kandidat[a].hasil;
@@ -153,7 +149,7 @@ function reset() {
   kandidat[1].hasil = 0;
   kandidat[2].hasil = 0;
   kandidat[3].hasil = 0;
-  currentUser.voted = false;
+  userSekarang.voted = false;
   hasil.sudahVote = 0;
   hasil.belumVote = pemilih.length;
   tampilData();
@@ -170,13 +166,13 @@ showButton();
 
 // Fungsi untuk menangani voting
 function submitVote(id) {
-  if (!currentUser) {
+  if (!userSekarang) {
     alert("Silakan login terlebih dahulu sebelum memberikan suara!");
     openLoginModal();
     return;
   }
 
-  if (currentUser.voted) {
+  if (userSekarang.voted) {
     alert(
       "Anda sudah melakukan voting. Silakan login dengan akun berbeda untuk memilih lagi."
     );
@@ -191,39 +187,27 @@ function submitVote(id) {
     }
   }
   // Tandai bahwa pengguna sudah voting
-  currentUser.voted = true;
+  userSekarang.voted = true;
 
-  hasil.sudahVote+=1;
-  hasil.belumVote-=pemilih.filter((p) => p.voted).length;
+  hasil.sudahVote += 1;
+  hasil.belumVote -= pemilih.filter((p) => p.voted).length;
 
   // Perbarui tampilan data
   tampilData();
-}
-
-// Fungsi untuk logout
-function logout() {
-  currentUser = null; // Hapus pengguna yang sedang login
-  alert("Anda telah logout. Silakan login kembali untuk memberikan suara.");
-  tampilData();
-}
-
-function enkripPass(text) {
-  let chars = text.split("");
-  for (let i = 0; i < chars.length - 1; i += 2) {
-    let temp = chars[i];
-    chars[i] = chars[i + 1];
-    chars[i + 1] = temp;
-  }
-  return chars.join("");
 }
 
 function enkripPassx(text) {
   let chars = text.split("");
   for (let i = 0; i < chars.length; i++) {
     let charCode = chars[i].charCodeAt(0);
+    console.log(chars[i] + " => " + charCode);
     chars[i] = String.fromCharCode(charCode + 4);
+
+    console.log(chars[i]);
+    console.log("3------------");
   }
+  console.log(chars.join());
   return chars.join("");
 }
-
+//
 tampilData();

@@ -14,7 +14,7 @@ body {
   display: center;
   justify-content: center;
   font-size: 40px;
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .logo {
@@ -22,6 +22,8 @@ body {
   justify-content: center;
   margin-top: 20px;
   margin-bottom: 20px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: larger
 }
 
 .partisipan {
@@ -67,6 +69,7 @@ button {
   color: white;
   border: none;
   cursor: pointer;
+  border-radius: 20px;
 }
 
 button:hover {
