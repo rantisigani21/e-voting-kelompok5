@@ -8,30 +8,30 @@ let kandidat = [
 
 // Data pengguna
 let pemilih = [
-  { username: "pipi", password: "wemjyhhmr", voted: 0 },
-  { username: "diba", password: "teliverkm", voted: 0 },
-  { username: "zahra", password: "levyr", voted: 0 },
-  { username: "cai", password: "wyhmvqer", voted: 0 },
-  { username: "dayat", password: "eqmr", voted: 0 },
-  { username: "tantan", password: "wyhevwsrs", voted: 0 },
-  { username: "mul", password: "qyp}ehm", voted: 0 },
-  { username: "asya", password: "veqpm", voted: 0 },
-  { username: "alfi", password: "tzbsjg", voted: 0 },
-  { username: "fila", password: "wejvmehl}", voted: 0 },
-  { username: "ranti", password: "leqvmhmr", voted: 0 },
-  { username: "hades", password: "oeveqe", voted: 0 },
-  { username: "rahma", password: "pyoqer", voted: 0 },
-  { username: "rahmi", password: "pyoqer", voted: 0 },
-  { username: "hasni", password: "qelqyh", voted: 0 },
-  { username: "labibi", password: "viw{erhe", voted: 0 },
-  { username: "abu", password: "qy+qev", voted: 0 },
-  { username: "anto", password: "veqerk", voted: 0 },
-  { username: "fahmi", password: "qyre{mv", voted: 0 },
-  { username: "mus", password: "ew+eh", voted: 0 },
-  { username: "sheva", password: "erxsr", voted: 0 },
-  { username: "tri", password: "mufep", voted: 0 },
-  { username: "ico", password: "weqmyhmr", voted: 0 },
-  { username: "tes", password: "e}el", voted: 0 },
+  { username: "pipi", password: "wemjyhhmr", voted: false },
+  { username: "diba", password: "teliverkm", voted: false },
+  { username: "zahra", password: "levyr", voted: false },
+  { username: "cai", password: "wyhmvqer", voted: false },
+  { username: "dayat", password: "eqmr", voted: false },
+  { username: "tantan", password: "wyhevwsrs", voted: false },
+  { username: "mul", password: "qyp}ehm", voted: false },
+  { username: "asya", password: "veqpm", voted: false },
+  { username: "alfi", password: "tzbsjg", voted: false },
+  { username: "fila", password: "wejvmehl}", voted: false },
+  { username: "ranti", password: "leqvmhmr", voted: false },
+  { username: "hades", password: "oeveqe", voted: false },
+  { username: "rahma", password: "pyoqer", voted: false },
+  { username: "rahmi", password: "pyoqer", voted: false },
+  { username: "hasni", password: "qelqyh", voted: false },
+  { username: "labibi", password: "viw{erhe", voted: false },
+  { username: "abu", password: "qy+qev", voted: false },
+  { username: "anto", password: "veqerk", voted: false },
+  { username: "fahmi", password: "qyre{mv", voted: false },
+  { username: "mus", password: "ew+eh", voted: false },
+  { username: "sheva", password: "erxsr", voted: false },
+  { username: "tri", password: "mufep", voted: false },
+  { username: "ico", password: "weqmyhmr", voted: false },
+  { username: "tes", password: "e}el", voted: false },
 ];
 
 let hasil = {
@@ -53,8 +53,19 @@ function login() {
 
   // Validasi username dan password
   const user = pemilih.find(
-    (p) => p.username == username && p.password === enkripPassx(password)
+    (item) =>
+      item.username == username && item.password === enkripPassx(password)
   );
+
+  // let user;
+  // for (var i = 0; i < pemilih.length; i++) {
+  //   if (
+  //     pemilih[i].username === username &&
+  //     pemilih[i].password === enkripPassx(password)
+  //   ) {
+  //     user = { username: username, password: enkripPassx(password) };
+  //   }
+  // }
 
   if (user) {
     // Periksa apakah pengguna sudah login sebelumnya
@@ -81,7 +92,7 @@ function tampilData() {
   const kandidats = document.getElementById("kandidats");
   const partisipasi = document.getElementById("partisipasi"); // Elemen untuk partisipasi
 
-  // Bersihkan elemen sebelumnya
+  // Bersihkan elemen sebelumnya agar elemen tidak berulang
   kandidats.innerHTML = "";
   partisipasi.innerHTML = `
     <p 
@@ -144,15 +155,16 @@ function tampilData() {
 }
 
 function reset() {
-  alert("RESET");
-  kandidat[0].hasil = 0;
-  kandidat[1].hasil = 0;
-  kandidat[2].hasil = 0;
-  kandidat[3].hasil = 0;
-  userSekarang.voted = false;
-  hasil.sudahVote = 0;
-  hasil.belumVote = pemilih.length;
-  tampilData();
+  alert("VOTED RESET");
+  for(b=0; b<kandidat.length; b++){
+    kandidat[b].hasil=0;
+    userSekarang.voted=false;
+    hasil.sudahVote = 0;
+    hasil.belumVote = pemilih.length;
+
+    tampilData();
+  }
+
 }
 
 function showButton() {
@@ -166,11 +178,11 @@ showButton();
 
 // Fungsi untuk menangani voting
 function submitVote(id) {
-  if (!userSekarang) {
-    alert("Silakan login terlebih dahulu sebelum memberikan suara!");
-    openLoginModal();
-    return;
-  }
+  // if (!userSekarang) {
+  //   alert("Silakan login terlebih dahulu sebelum memberikan suara!");
+  //   openLoginModal();
+  //   return;
+  // }
 
   if (userSekarang.voted) {
     alert(
@@ -204,7 +216,7 @@ function enkripPassx(text) {
     chars[i] = String.fromCharCode(charCode + 4);
 
     console.log(chars[i]);
-    console.log("3------------");
+    // console.log("3------------");
   }
   console.log(chars.join());
   return chars.join("");
